@@ -31,7 +31,11 @@ const Usd: FC<UsdProps> = ({ rate }) => {
             aria-describedby="inputGroup-sizing-default"
             type="text"
             value={quantity}
-            onChange={(e) => setQuantity(parseInt(e.target.value))}
+            onChange={(e) => {
+              if (parseInt(e.target.value) >= 0) {
+                setQuantity(parseInt(e.target.value))
+              }
+            }}
             onKeyPress={handleOnPres}
           />
           <Button onClick={handleCalculate} variant="secondary">
