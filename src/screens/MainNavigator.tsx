@@ -1,7 +1,9 @@
 import React, { FC, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
+import Error from "../components/Error";
 import Eur from "../components/Eur";
 import Intro from "../components/Intro";
+import Loader from "../components/Loader";
 import Pln from "../components/Pln";
 import Usd from "../components/Usd";
 import { useAppDispatch } from "../hooks/useTypedDispatch";
@@ -12,12 +14,20 @@ const MainNavigator: FC = () => {
   const dispatch = useAppDispatch();
 
   const currency  = useTypedSelector((state) => state.currency);
-  console.log(currency)
+  //console.log(currency)
 
   useEffect(() => {
     //@ts-ignore
     dispatch(CurrencyActionCreators.getCurrency())
   }, [])
+
+  if (currency.isLoading) {
+    return <Loader/>
+  }
+
+  if (currency.error) {
+    return <Error message={currency.error}/>
+  }
 
   return (
     <Routes>
